@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SQL Injection in Web3 Relayer</title>
+</head>
+<body>
+  <h2>Simulate Wallet Lookup</h2>
+  <input type="text" id="wallet" placeholder="Enter wallet address" />
+  <button onclick="lookupUser()">Lookup User</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    async function lookupUser() {
+      const wallet = document.getElementById("wallet").value;
+
+      const res = await fetch("http://localhost:3000/get-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ wallet })
+      });
+
+      const data = await res.json();
+      document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
