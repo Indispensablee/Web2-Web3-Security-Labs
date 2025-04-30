@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>SQL Injection in Web3 Relayer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lab 1 - SQL Injection Demo</title>
 </head>
 <body>
-  <h2>Simulate Wallet Lookup</h2>
-  <input type="text" id="wallet" placeholder="Enter wallet address" />
-  <button onclick="lookupUser()">Lookup User</button>
-
+  <h1>SQL Injection Demo</h1>
+  <input type="text" id="userIdInput" placeholder="Enter user ID or SQL injection">
+  <button onclick="fetchUser()">Fetch User</button>
   <pre id="result"></pre>
 
   <script>
-    async function lookupUser() {
-      const wallet = document.getElementById("wallet").value;
-
-      const res = await fetch("http://localhost:3000/get-user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ wallet })
-      });
-
-      const data = await res.json();
-      document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+    async function fetchUser() {
+      const id = document.getElementById("userIdInput").value;
+      try {
+        const res = await fetch(`https://web2-web3-security-labs.onrender.com/users?id=${encodeURIComponent(id)}`);
+        const data = await res.json();
+        document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById("result").textContent = "Error: " + error;
+      }
     }
   </script>
 </body>
